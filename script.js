@@ -6,7 +6,7 @@ function cleanSequence() {
     var sequence = $( '#sequence' ).val();
 
     // var res = sequence.replace(",", "");
-    // checkArray(sequence);
+    // check(sequence);
 
     var x = "";
 
@@ -26,10 +26,32 @@ function calculate(arrSequence) {
     arrSequence.shift();
     check(arrSequence);
 
+    var count = 0;
+    var newNum = 0;
     
+    for (const x in arrSequence) {
+        
+        if ( count < numberOne ) {
+
+            console.log("if " + count + " < " + numberOne);
+            newNum = arrSequence[x] - 1;
+            console.log("Operation:" + newNum + " = " + arrSequence[x] + " - 1");
+            arr.push(newNum);
+        }
+        
+        count++;
+    }
+    check(arr);
+    arrSequence.splice(0,arr.length);
+    check(arrSequence);
+    arrSequence = arrSequence.concat(arr);
+    
+    arrSequence.sort();
+    check(arrSequence);
+    arr = [];
+
 }
 
 function check(x) {
     console.log("Check: " + x);
 }
-
