@@ -50,8 +50,15 @@ function calculate(arrSequence) {
     check(arrSequence);
     arr = [];
 
+    var result = isGraphic(arrSequence);
+    console.log("result: " + result)
 }
 
 function check(x) {
     console.log("Check: " + x);
+}
+
+function isGraphic(arr) {
+    const someIsNotZero = arr.some(item => item != 0);
+    return !someIsNotZero; // True if it is graphic (all zero's)
 }
