@@ -18,47 +18,64 @@ function cleanSequence() {
 
 function calculate(arrSequence) {
     var arr = new Array();
-
-    arrSequence.sort();
-    
-    var numberOne = arrSequence[0];
-    
-    arrSequence.shift();
-    check(arrSequence);
-
     var count = 0;
     var newNum = 0;
-    
-    for (const x in arrSequence) {
-        
-        if ( count < numberOne ) {
+    var re = true;
 
-            console.log("if " + count + " < " + numberOne);
-            newNum = arrSequence[x] - 1;
-            console.log("Operation:" + newNum + " = " + arrSequence[x] + " - 1");
-            arr.push(newNum);
+
+
+    do {
+            arrSequence.sort(function(a, b){ return b-a });
+        var numberOne = arrSequence[0];
+        arrSequence.shift();
+        check(arrSequence);
+    
+        for (const x in arrSequence) {
+            if ( count < numberOne ) {
+                console.log("if " + count + " < " + numberOne);
+                newNum = arrSequence[x] - 1;
+                console.log("Operation:" + newNum + " = " + arrSequence[x] + " - 1");
+                arr.push(newNum);
+                console.log('count: ' + count);
+                count++;
+            } 
         }
-        
-        count++;
-    }
-    check(arr);
-    arrSequence.splice(0,arr.length);
-    check(arrSequence);
-    arrSequence = arrSequence.concat(arr);
-    
-    arrSequence.sort();
-    check(arrSequence);
-    arr = [];
+        count = 0;
+        //check(arr);
+        arrSequence.splice(0,arr.length);
+        check(arrSequence);
 
-    var result = isGraphic(arrSequence);
-    console.log("result: " + result)
+        arrSequence = arrSequence.concat(arr);
+        //arrSequence.sort(function(a, b){ return b-a });
+
+        check(arrSequence);
+        arr = [];
+
+        var isValid = isGraphic(arrSequence);
+        console.log("result: " + isValid);
+        
+        if (isValid === "done")
+            isValid = false;
+
+        //return false;
+    } while (isValid);
 }
 
 function check(x) {
     console.log("Check: " + x);
 }
 
-function isGraphic(arr) {
-    const someIsNotZero = arr.some(item => item != 0);
-    return !someIsNotZero; // True if it is graphic (all zero's)
+function isGraphic(array) {
+    const someIsNotZero = array.some(item => item != 0);
+    const someIsNegative = array.some(item => item < 0);
+    console.log("someIsNotZero: " + someIsNotZero);
+    console.log("someIsNegative: " + someIsNegative);
+
+    if ( someIsNotZero ) { // Si hay algun num != 0
+        if ( someIsNegative ) // Y si hay algun negativo
+            return false;
+    } else 
+        return "done";
+
+    return true;
 }
