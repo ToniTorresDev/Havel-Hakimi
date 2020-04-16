@@ -1,81 +1,148 @@
-$( document ).ready(function() { 
-    $( '#sendButton' ).click(cleanSequence);
-})
+document.addEventListener("DOMContentLoaded", function(event) { 
+    var ele = document.getElementById("sendButton");
+    ele.addEventListener("click", cleanSequence)
+});
 
 function cleanSequence() {
-    var sequence = $( '#sequence' ).val();
-
-    // var res = sequence.replace(",", "");
-    // check(sequence);
-
-    var x = "";
-
-    var arrSequence = sequence.split(x);
-
-    calculate(arrSequence);
+    // Clean HTML text
+    var showActualSequence = document.getElementById("actualSequence");
+    showActualSequence.innerHTML = "";
+    var mssg = document.getElementById("mssg");
+    mssg.innerHTML = "";
+    document.getElementById("procedure").innerHTML = "";
     
+    // Get sequence, show it in HTML and tranform to array
+    var sequence = document.getElementById("sequence").value;
+    showActualSequence.innerHTML = "Sequence: " + sequence;
+    var arrSequence = sequence.split("");
+
+    calculate(arrSequence); // Execute the algorithm Havel-Hakimi
 }
+
+/*
+    RULES TO BE GRAPHIC:
+        Sequence cannot be graphic...
+        - Rule 1: if the Higher number cannot be bigger to sequence length
+        - Rule 2: if we have a number of odd numbers equal to odd. 
+            Example: 
+                3 3 3 2 = 3 odd numbers -> 3 is odd. not ok.
+                3 3 2 2 = 2 odd numbers -> 2 is even ok.
+        - Rule 3: if sequence end with some negative number.
+        It is graphic...
+        - Rule 4: if sequence end with all cero's
+*/
 
 function calculate(arrSequence) {
     var arr = new Array();
     var count = 0;
+    var step = 0;
     var newNum = 0;
-    var re = true;
 
-
-
+    // Loop --> do While --> until sequence is graphic or not.
     do {
-            arrSequence.sort(function(a, b){ return b-a });
+        // Order from highest to lowest
+        arrSequence.sort(function(a, b){ return b-a });
+        // Save in a variable the first position
         var numberOne = arrSequence[0];
+        // Remove first position
         arrSequence.shift();
-        check(arrSequence);
-    
+
+        // Before we do Havel-Hakimi we need to check Rule1
+        if (numberOne > arrSequence.length) {
+            mssg.innerHTML = "<p>This sequence <b>cannot be graphic</b>. </p> <p>The Higher number '" + numberOne + "' cannot be bigger to sequence length '" + arrSequence.length + "'.</p>";
+            break;
+        }
+            
+        // loop sequence, subtract one every number from secuence array but only 'numberOne' positions and save that numbers in a new array.
         for (const x in arrSequence) {
             if ( count < numberOne ) {
-                console.log("if " + count + " < " + numberOne);
                 newNum = arrSequence[x] - 1;
-                console.log("Operation:" + newNum + " = " + arrSequence[x] + " - 1");
                 arr.push(newNum);
-                console.log('count: ' + count);
                 count++;
             } 
         }
-        count = 0;
-        //check(arr);
-        arrSequence.splice(0,arr.length);
-        check(arrSequence);
-
+        count = 0; // reset counter
+        /* 
+        Before set new numbers we need to remove from main array that numbers that were affected, 
+        then concat both arrays and clean second array. */
+        arrSequence.splice(0, arr.length);
         arrSequence = arrSequence.concat(arr);
-        //arrSequence.sort(function(a, b){ return b-a });
-
-        check(arrSequence);
         arr = [];
 
-        var isValid = isGraphic(arrSequence);
-        console.log("result: " + isValid);
-        
-        if (isValid === "done")
-            isValid = false;
+        // Show steps of the algorithm
+        showProcedure(arrSequence, step);
 
-        //return false;
+        // Check if it is graphic and
+        var isValid = isGraphic(arrSequence);
+
+        switch (isValid) {
+            case false:
+                /* Rule 3: Negative number appear, so stop looping and show message */
+                var oddNums = checkOddNumbers();
+                document.getElementById('mssg').innerHTML = "<p>This sequence have a negative number, so is <b>not graphic</b>.</p>";
+                if ( !oddNums ) 
+                    document.getElementById('mssg').innerHTML += "<p>This sequence cannot be graphic because have a number of odd numbers equal to odd. </p> <p> Example: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
+                break;
+            case "done":
+                /* Rule 4: Sequence is all 0's, so stop looping and show message */
+                document.getElementById('mssg').innerHTML = "<p>This sequence <b>is graphic</b>.</p>";
+                isValid = false; /* Stop loop */
+                break;
+            default:
+                document.getElementById('mssg').innerHTML = "<p>Something went wrong. Try later.</p>";
+                break;
+        }
+
+        step++;
     } while (isValid);
 }
 
-function check(x) {
-    console.log("Check: " + x);
+function showProcedure(arr, step) {
+    var text = "";
+
+    for (const key in arr) {
+        if (arr.hasOwnProperty(key)) {
+            text += arr[key];
+        }
+    }
+    document.getElementById('procedure').innerHTML += "<p> Step " + step + ": " + text + "</p>";
+    step++;
 }
 
 function isGraphic(array) {
     const someIsNotZero = array.some(item => item != 0);
     const someIsNegative = array.some(item => item < 0);
-    console.log("someIsNotZero: " + someIsNotZero);
-    console.log("someIsNegative: " + someIsNegative);
 
-    if ( someIsNotZero ) { // Si hay algun num != 0
-        if ( someIsNegative ) // Y si hay algun negativo
+    if ( someIsNotZero ) { // If there are some number different to 0
+        if ( someIsNegative ) // If there are some negative number
             return false;
     } else 
         return "done";
 
     return true;
 }
+
+function checkOddNumbers(){
+    var result = 0, odd = 0, num = 0;
+    // Get main sequence and transform to array
+    var sequence = document.getElementById("sequence").value;
+    var arr = sequence.split("");
+
+    // loop the sequence
+    for (const i in arr) {
+        if (arr.hasOwnProperty(i)) {
+            // Check how many odd numbers we have in the sequence 
+            num = arr[i] / 2;
+            /* number result is downward and substract with the number without downward, 
+            if result is different to 0 (odd) return true. Example 1.3 - 1 != 0 -> true */
+            result = (num - Math.floor(num)) !== 0; // 
+            if ( result ) // decimal number (odd) = true
+                odd++;
+        }
+    }
+    // Once we have number of odds we need to compare again to see if it's odd
+    result = (odd - Math.floor(odd)) !== 0;
+    if ( result )
+        return false;
+}
+
