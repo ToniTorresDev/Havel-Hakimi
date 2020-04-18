@@ -13,8 +13,11 @@ function cleanSequence() {
     
     // Get sequence, show it in HTML and tranform to array
     var sequence = document.getElementById("sequence").value;
-    showActualSequence.innerHTML = "Sequence: " + sequence;
+    showActualSequence.innerHTML = "<b> Sequence: </b>" + sequence;
     var arrSequence = sequence.split("");
+
+    // Set layout in response
+    document.getElementById("appear").classList.add("layout");;
 
     calculate(arrSequence); // Execute the algorithm Havel-Hakimi
 }
@@ -41,7 +44,7 @@ function calculate(arrSequence) {
     // Loop --> do While --> until sequence is graphic or not.
     do {
         // Order from highest to lowest
-        arrSequence.sort(function(a, b){ return b-a });
+        sortNumbers(arrSequence);
         // Save in a variable the first position
         var numberOne = arrSequence[0];
         // Remove first position
@@ -81,7 +84,7 @@ function calculate(arrSequence) {
                 var oddNums = checkOddNumbers();
                 document.getElementById('mssg').innerHTML = "<p>This sequence have a negative number, so is <b>not graphic</b>.</p>";
                 if ( !oddNums ) 
-                    document.getElementById('mssg').innerHTML += "<p>This sequence cannot be graphic because have a number of odd numbers equal to odd. </p> <p> Example: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
+                    document.getElementById('mssg').innerHTML += "<p>Cannot be graphic because the set of odd numbers is odd. </p> <p> Example: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
                 break;
             case "done":
                 /* Rule 4: Sequence is all 0's, so stop looping and show message */
@@ -100,12 +103,14 @@ function calculate(arrSequence) {
 function showProcedure(arr, step) {
     var text = "";
 
+    sortNumbers(arr);
+
     for (const key in arr) {
         if (arr.hasOwnProperty(key)) {
             text += arr[key];
         }
     }
-    document.getElementById('procedure').innerHTML += "<p> Step " + step + ": " + text + "</p>";
+    document.getElementById('procedure').innerHTML += "<p> <b>Step " + step + ": </b>" + text + "</p>";
     step++;
 }
 
@@ -122,7 +127,11 @@ function isGraphic(array) {
     return true;
 }
 
-function checkOddNumbers(){
+function sortNumbers (arr) {
+    return arr.sort(function(a, b){ return b-a });
+}
+
+function checkOddNumbers() {
     var result = 0, odd = 0, num = 0;
     // Get main sequence and transform to array
     var sequence = document.getElementById("sequence").value;
@@ -145,4 +154,3 @@ function checkOddNumbers(){
     if ( result )
         return false;
 }
-

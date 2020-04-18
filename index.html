@@ -4,20 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Havel Hakimi</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Havel-Hakimi</h1>
-    <div class="">
-        <label for="">Introduce a sequence: </label>
-        <input id="sequence" type="text">
-        <button id="sendButton"> send </button>
+    <h1> Havel-Hakimi Online</h1>
+
+    <div class="container">
+
+    </div>
+    <div class="container">
+        <div class="layout">
+            <div class="boxMain">
+                <label for="">Introduce a sequence: </label>
+                <input id="sequence" type="text" placeholder="123445">
+                <button id="sendButton"> GO </button>
+            </div>
+        </div>
     </div>
 
-    <div id="actualSequence"></div>
+    <div class="container">
+        <div id="appear">
+            <div id="actualSequence" ></div>
+            <hr>
+            
+            <div id="procedure"></div>
+            
+            <div id="mssg"></div>
+        </div>
+    </div>
 
-    <div id="procedure"></div>
-    
-    <div id="mssg"></div>
+
+
 
 </body>
 <script src="./script.js"></script>
