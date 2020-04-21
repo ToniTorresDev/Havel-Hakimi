@@ -24,15 +24,15 @@ function cleanSequence() {
 
 /*
     RULES TO BE GRAPHIC:
-        Sequence cannot be graphic...
+        Sequence cannot be graphic when...
         - Rule 1: if the Higher number cannot be bigger to sequence length
-        - Rule 2: if we have a number of odd numbers equal to odd. 
+        - Rule 2: if we have a set of odd numbers that is odd. 
             Example: 
                 3 3 3 2 = 3 odd numbers -> 3 is odd. not ok.
                 3 3 2 2 = 2 odd numbers -> 2 is even ok.
         - Rule 3: if sequence end with some negative number.
         It is graphic...
-        - Rule 4: if sequence end with all cero's
+        - Rule 4: if sequence end with all zero's.
 */
 
 function calculate(arrSequence) {
@@ -81,10 +81,10 @@ function calculate(arrSequence) {
         switch (isValid) {
             case false:
                 /* Rule 3: Negative number appear, so stop looping and show message */
-                var oddNums = checkOddNumbers();
+                var isOdd = checkOddNumbers();
                 document.getElementById('mssg').innerHTML = "<p>This sequence have a negative number, so is <b>not graphic</b>.</p>";
-                if ( !oddNums ) 
-                    document.getElementById('mssg').innerHTML += "<p>Cannot be graphic because the set of odd numbers is odd. </p> <p> Example: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
+                if ( isOdd ) 
+                    document.getElementById('mssg').innerHTML += "<p>Cannot be graphic because the set of odd numbers is odd. </p> <p> Example: sequence: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
                 break;
             case "done":
                 /* Rule 4: Sequence is all 0's, so stop looping and show message */
@@ -127,7 +127,7 @@ function isGraphic(array) {
     return true;
 }
 
-function sortNumbers (arr) {
+function sortNumbers(arr) {
     return arr.sort(function(a, b){ return b-a });
 }
 
@@ -150,7 +150,11 @@ function checkOddNumbers() {
         }
     }
     // Once we have number of odds we need to compare again to see if it's odd
-    result = (odd - Math.floor(odd)) !== 0;
+    num = odd / 2;
+    result = (num - Math.floor(num)) !== 0;
     if ( result )
-        return false;
+        return true; // is odd
+
+    // If it's not odd
+    return false;
 }

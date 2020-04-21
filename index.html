@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Havel Hakimi</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1> Havel-Hakimi Online</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Havel Hakimi</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            Havel-Hakimi Online</h1>
 
-    <div class="container">
-
-    </div>
-    <div class="container">
-        <div class="layout">
-            <div class="boxMain">
-                <label for="">Introduce a sequence: </label>
-                <input id="sequence" type="text" placeholder="123445">
-                <button id="sendButton"> GO </button>
+        <div class="container"></div>
+        <div class="container">
+            <div class="layout">
+                <div class="boxMain">
+                    <label for="">Introduce a sequence:
+                    </label>
+                    <input id="sequence" type="text" placeholder="123445">
+                    <button id="sendButton">
+                        GO
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container">
-        <div id="appear">
-            <div id="actualSequence" ></div>
-            <hr>
-            
-            <div id="procedure"></div>
-            
-            <div id="mssg"></div>
+        <div class="container">
+            <div id="appear">
+                <div id="actualSequence"></div>
+                <hr>
+                <div id="procedure"></div>
+                <div id="mssg"></div>
+            </div>
         </div>
-    </div>
 
-
-
-
-</body>
-<script src="./script.js"></script>
+    </body>
+    <footer>
+        <div class="container">
+            <div class="layout">
+                <a target="_blank" href="https://github.com/ToniTJK/Havel-Hakimi">
+                    <img src="./images/github.svg" alt="github-toni-torres-cuenca">
+                </a>
+                <div class="tooltip">
+                    <a target="_blank" href="https://en.wikipedia.org/wiki/Havel%E2%80%93Hakimi_algorithm">
+                        <img src="./images/info.svg" alt="info-havel-hakimi-wikipedia">
+                    </a>
+                    <div class="tooltiptext">
+                        What is Havel-Hakimi Algorithm?
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="./script.js"></script>
 </html>
