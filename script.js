@@ -13,13 +13,17 @@ function cleanSequence() {
     
     // Get sequence, show it in HTML and tranform to array
     var sequence = document.getElementById("sequence").value;
-    showActualSequence.innerHTML = "<b> Sequence: </b>" + sequence;
-    var arrSequence = sequence.split("");
+
+    if (!isOnlyNumeric(sequence)) {
+        showActualSequence.innerHTML = "<p class='red'>You only can put numbers!</p>";
+    } else {
+        showActualSequence.innerHTML = "<b> Sequence: </b>" + sequence;
+        var arrSequence = sequence.split("");
+        calculate(arrSequence); // Execute the algorithm Havel-Hakimi
+    }
 
     // Set layout in response
-    document.getElementById("appear").classList.add("layout");;
-
-    calculate(arrSequence); // Execute the algorithm Havel-Hakimi
+    document.getElementById("appear").classList.add("layout"); 
 }
 
 /*
@@ -84,7 +88,7 @@ function calculate(arrSequence) {
                 var isOdd = checkOddNumbers();
                 document.getElementById('mssg').innerHTML = "<p>This sequence have a negative number, so is <b>not graphic</b>.</p>";
                 if ( isOdd ) 
-                    document.getElementById('mssg').innerHTML += "<p>Cannot be graphic because the set of odd numbers is odd. </p> <p> Example: sequence: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
+                    document.getElementById('mssg').innerHTML += "<p>Cannot be graphic because <b>the set of odd numbers is odd</b>. </p> <p> <b>Example:</b> sequence: 3 3 3 2 = 3 odd numbers -> 3 is odd.</p>";
                 break;
             case "done":
                 /* Rule 4: Sequence is all 0's, so stop looping and show message */
@@ -157,4 +161,9 @@ function checkOddNumbers() {
 
     // If it's not odd
     return false;
+}
+
+function isOnlyNumeric(input){
+    var reg = /^\d+$/; 
+    return (reg.test( input ));
 }

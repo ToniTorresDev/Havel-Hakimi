@@ -74,11 +74,9 @@ img:hover {
     border-radius: 20px;
 }
 
-
-
-
-
-
+.red {
+    color: red;
+}
 
 .tooltip {
     position: relative;
